@@ -15,11 +15,11 @@ public class CritterModel {
     private int width;
     private Critter[][] grid;
     private Map<Critter, PrivateData> info;
-    private SortedMap<String, Integer>critterCount;
+    private SortedMap<String, Integer> critterCount;
     private boolean debugView;
     private int simulationCount;
     private static boolean created;
-    
+
     public CritterModel(int width, int height) {
         // this prevents someone from trying to create their own copy of
         // the GUI components
@@ -62,12 +62,12 @@ public class CritterModel {
                 next = makeCritter(critter);
             } catch (IllegalArgumentException e) {
                 System.out.println("ERROR: " + critter + " does not have" +
-                                   " the appropriate constructor.");
+                        " the appropriate constructor.");
                 System.exit(1);
                 return;
             } catch (Exception e) {
                 System.out.println("ERROR: " + critter + " threw an " +
-                                   " exception in its constructor.");
+                        " exception in its constructor.");
                 System.exit(1);
                 return;
             }
@@ -77,7 +77,7 @@ public class CritterModel {
                 y = r.nextInt(height);
             } while (grid[x][y] != null);
             grid[x][y] = next;
-            
+
             Critter.Direction d = directions[r.nextInt(directions.length)];
             info.put(next, new PrivateData(new Point(x, y), d));
         }
@@ -91,13 +91,7 @@ public class CritterModel {
     @SuppressWarnings("unchecked")
     private Critter makeCritter(Class critter) throws Exception {
         Constructor c = critter.getConstructors()[0];
-        if (critter.toString().equals("class Bear")) {
-            // flip a coin
-            boolean b = Math.random() < 0.5;
-            return (Critter) c.newInstance(new Object[] {b});
-        } else {
-            return (Critter) c.newInstance();
-        }
+        return (Critter) c.newInstance();
     }
 
     public int getWidth() {
@@ -110,7 +104,7 @@ public class CritterModel {
 
     public String getAppearance(Critter c) {
         // Override specified toString if debug flag is true
-        if (!debugView) 
+        if (!debugView)
             return info.get(c).string;
         else {
             PrivateData data = info.get(c);
@@ -120,7 +114,7 @@ public class CritterModel {
             else return "<";
         }
     }
-    
+
     public void toggleDebug() {
         this.debugView = !this.debugView;
     }
@@ -186,9 +180,9 @@ public class CritterModel {
         // * a Critter is infected
         // * a Critter hops
         Set<Critter> locked = new HashSet<Critter>();
-        
+
         for (int i = 0; i < list.length; i++) {
-            Critter next = (Critter)list[i];
+            Critter next = (Critter) list[i];
             PrivateData data = info.get(next);
             if (data == null) {
                 // happens when creature was infected earlier in this round
@@ -200,7 +194,7 @@ public class CritterModel {
             Point p = data.p;
             Point p2 = pointAt(p, data.direction);
 
-            
+
             // try to perform the critter's action
             Critter.Action move = next.getMove(getInfo(data, next.getClass()));
             if (move == Critter.Action.LEFT)
@@ -213,15 +207,15 @@ public class CritterModel {
                     grid[p.x][p.y] = null;
                     data.p = p2;
                     locked.add(next); //successful hop locks a critter from
-                                      // being infected for the rest of the
-                                      // turn
+                    // being infected for the rest of the
+                    // turn
                     data.justHopped = true;  // remember a successful hop
                 }
             } else if (move == Critter.Action.INFECT) {
                 if (inBounds(p2) && grid[p2.x][p2.y] != null
-                    && grid[p2.x][p2.y].getClass() != next.getClass()
-                    && !locked.contains(grid[p2.x][p2.y])
-                    && (hadHopped || Math.random() >= HOP_ADVANTAGE)) {
+                        && grid[p2.x][p2.y].getClass() != next.getClass()
+                        && !locked.contains(grid[p2.x][p2.y])
+                        && (hadHopped || Math.random() >= HOP_ADVANTAGE)) {
                     Critter other = grid[p2.x][p2.y];
                     // remember the old critter's private data
                     PrivateData oldData = info.get(other);
@@ -321,15 +315,15 @@ public class CritterModel {
         public boolean frontThreat() {
             return neighborThreats[0];
         }
-        
+
         public boolean backThreat() {
             return neighborThreats[2];
         }
-            
+
         public boolean leftThreat() {
             return neighborThreats[3];
         }
-        
+
         public boolean rightThreat() {
             return neighborThreats[1];
         }
