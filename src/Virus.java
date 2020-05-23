@@ -2,17 +2,23 @@
 import java.awt.*;
 
 public class Virus extends Critter {
-    private Color color = Color.BLACK;
+    private Color[] color = {Color.WHITE, Color.BLUE, Color.GREEN, Color.RED, Color.BLACK};
     private final String image = "V";
     private int moveCount = 0;
+    private int infectiousness = 0;
 
     public Virus() {
         super();
     }
 
+    public void setInfectiousness() {
+        infectiousness = CritterMain.getInfector()-1;
+    }
+
     @Override
     public Color getColor() {
-        return this.color;
+        setInfectiousness();
+        return this.color[infectiousness];
     }
 
     @Override
@@ -24,13 +30,13 @@ public class Virus extends Critter {
     public Action getMove(CritterInfo info) {
         Action action = null;
         if (info.frontThreat()) {
-            action = Action.INFECT;
+            action = infect();
         }
         else if (info.getFront() == Neighbor.WALL || info.getFront() == Neighbor.SAME) {
             action = Action.LEFT;
         }
         else if (info.getFront() == Neighbor.OTHER) {
-            action = Action.INFECT;
+            action = infect();
         }
         else {
             action = pickMove();
@@ -47,5 +53,91 @@ public class Virus extends Critter {
             case 3 -> Action.RIGHT;
             default -> null;
         };
+    }
+
+    public Action infect() {
+        Action action = null;
+        switch (infectiousness) {
+            case 0:
+                if (moveCount%5 == 0) {
+                    action = Action.INFECT;
+                }
+                else {
+                    action = pickMove();
+                }
+                break;
+            case 1:
+                if (moveCount%4 == 0) {
+                    action = Action.INFECT;
+                }
+                else {
+                    action = pickMove();
+                }
+                break;
+            case 2:
+                if (moveCount%3 == 0) {
+                    action = Action.INFECT;
+                }
+                else {
+                    action = pickMove();
+                }
+                break;
+            case 3:
+                if (moveCount%2 == 0) {
+                    action = Action.INFECT;
+                }
+                else {
+                    action = pickMove();
+                }
+                break;
+            case 4:
+                action = Action.INFECT;
+                break;
+            default:
+                action = pickMove();
+        }
+        return action;
+    }
+
+    public Action superInfect(CritterInfo info) {
+        Action action = null;
+        if (info.frontThreat()) {
+            action = infect();
+        }
+        else if (info.getFront() == Neighbor.OTHER) {
+            action = infect();
+        }
+        else if (info.getRight() == Neighbor.OTHER) {
+            action = Action.RIGHT;
+        }
+        else if (info.getLeft() == Neighbor.OTHER) {
+            action = Action.LEFT;
+        }
+        else {
+            action = pickMove();
+        }
+        moveCount++;
+        return action;
+    }
+
+    public Action fourInfect(CritterInfo info) {
+        Action action = null;
+        if (info.frontThreat()) {
+            action = Action.INFECT;
+        }
+        else if (info.getFront() == Neighbor.OTHER) {
+            action = Action.INFECT;
+        }
+        else if (info.getRight() == Neighbor.OTHER) {
+            action = Action.RIGHT;
+        }
+        else if (info.getLeft() == Neighbor.OTHER) {
+            action = Action.HOP;
+        }
+        else {
+            action = pickMove();
+        }
+        moveCount++;
+        return action;
     }
 }

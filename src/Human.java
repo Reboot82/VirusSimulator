@@ -28,6 +28,9 @@ public class Human extends Critter {
         if (info.frontThreat()) {
             action = Action.LEFT;
         }
+        else if (info.getFront() != Neighbor.EMPTY){
+            action = Action.RIGHT;
+        }
         else {
             action = pickMove();
         }
@@ -38,9 +41,9 @@ public class Human extends Critter {
     public Action pickMove() {
         int rnd = (int)(Math.random()*(10));
         return switch (rnd) {
-            case 1,4,6,8,9 -> Action.HOP;
-            case 2,5 -> Action.LEFT;
-            case 3,7 -> Action.RIGHT;
+            case 1,4,5,6,7,8,9 -> Action.HOP;
+            case 2 -> Action.LEFT;
+            case 3 -> Action.RIGHT;
             default -> null;
         };
     }
