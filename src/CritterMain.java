@@ -34,7 +34,6 @@ public class CritterMain {
 //         frame.add(30, Tiger.class);
 //         frame.add(30, WhiteTiger.class);
         frame.add(huNum, Human.class);
-//         frame.add(30, BFCCat.class);
 //
 //        frame.add(30, FlyTrap.class);
 //        frame.add(30, Food.class);

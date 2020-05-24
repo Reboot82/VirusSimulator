@@ -2,7 +2,7 @@
 import java.awt.*;
 
 public class Virus extends Critter {
-    private Color[] color = {Color.WHITE, Color.BLUE, Color.GREEN, Color.RED, Color.BLACK};
+    private Color[] color = {Color.CYAN, Color.BLUE, Color.GREEN, Color.RED, Color.BLACK};
     private final String image = "V";
     private int moveCount = 0;
     private int infectiousness = 0;

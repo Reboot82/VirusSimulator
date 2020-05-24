@@ -1,12 +1,12 @@
 
 import java.awt.*;
 
-public class BFCCat extends Critter {
-    private Color color = Color.BLACK;
-    private final String image = "BFC";
+public class Recovered extends Critter {
+    private Color color = Color.WHITE;
+    private final String image = "H";
     private int moveCount = 0;
 
-    public BFCCat() {
+    public Recovered() {
         super();
     }
 
