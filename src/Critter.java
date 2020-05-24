@@ -27,6 +27,16 @@
 import java.awt.*;
 
 public class Critter {
+    private int moveCount = 0;
+
+    public void setMoveCount(int moveCount) {
+        this.moveCount = moveCount;
+    }
+
+    public int getMoveCount() {
+        return moveCount;
+    }
+
     public static enum Neighbor {
         WALL, EMPTY, SAME, OTHER
     };

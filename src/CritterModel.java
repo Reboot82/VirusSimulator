@@ -197,7 +197,26 @@ public class CritterModel {
 
             // try to perform the critter's action
             Critter.Action move = next.getMove(getInfo(data, next.getClass()));
-            if (move == Critter.Action.LEFT)
+            if (grid[p.x][p.y].getClass() == Virus.class && grid[p.x][p.y].getMoveCount()%20 == 19) {
+                Critter old = grid[p.x][p.y];
+                PrivateData oldData = info.get(old);
+                String c1 = old.getClass().getName();
+                critterCount.put(c1, critterCount.get(c1) - 1);
+                String c2 = Recovered.class.getName();
+                critterCount.put(c2, critterCount.get(c2) + 1);
+                info.remove(old);
+                try {
+                    grid[p.x][p.y] = makeCritter(Recovered.class);
+                    locked.add(grid[p.x][p.y]);
+                } catch (Exception e) {
+                    throw new RuntimeException("" + e);
+                }
+                // and add to the map
+                info.put(grid[p.x][p.y], oldData);
+                // but it also moved, so the hop counts
+                oldData.justHopped = true;
+            }
+            else if (move == Critter.Action.LEFT)
                 data.direction = rotate(rotate(rotate(data.direction)));
             else if (move == Critter.Action.RIGHT)
                 data.direction = rotate(data.direction);

@@ -28,6 +28,7 @@ public class Virus extends Critter {
 
     @Override
     public Action getMove(CritterInfo info) {
+        this.setMoveCount(moveCount);
         Action action = null;
         if (info.frontThreat()) {
             action = infect();
