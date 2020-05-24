@@ -24,7 +24,7 @@ public class Recovered extends Critter {
     public Action getMove(CritterInfo info) {
         Action action = null;
         if (info.frontThreat()) {
-            action = Action.INFECT;
+            action = Action.LEFT;
         }
         else if (info.leftThreat() || info.rightThreat()) {
             action = Action.HOP;
@@ -34,9 +34,6 @@ public class Recovered extends Critter {
         }
         else if (info.getFront() == Neighbor.WALL || info.getRight() == Neighbor.OTHER) {
             action = Action.RIGHT;
-        }
-        else if (info.getFront() == Neighbor.OTHER) {
-            action = Action.INFECT;
         }
         else {
             action = Action.HOP;
