@@ -49,17 +49,17 @@ public class Critter {
         NORTH, SOUTH, EAST, WEST
     };
 
-    // This method should be overriden (default action is turning left)
+    // This method should be overridden (default action is turning left)
     public Action getMove(CritterInfo info) {
         return Action.LEFT;
     }
 
-    // This method should be overriden (default color is black)
+    // This method should be overridden (default color is black)
     public Color getColor() {
         return Color.BLACK;
     }
 
-    // This method should be overriden (default display is "?")
+    // This method should be overridden (default display is "?")
     public String toString() {
         return "?";
     }

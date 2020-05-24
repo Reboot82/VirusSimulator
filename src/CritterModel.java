@@ -197,26 +197,90 @@ public class CritterModel {
 
             // try to perform the critter's action
             Critter.Action move = next.getMove(getInfo(data, next.getClass()));
-            if (grid[p.x][p.y].getClass() == Virus.class && grid[p.x][p.y].getMoveCount()%20 == 19) {
-                Critter old = grid[p.x][p.y];
-                PrivateData oldData = info.get(old);
-                String c1 = old.getClass().getName();
-                critterCount.put(c1, critterCount.get(c1) - 1);
-                String c2 = Recovered.class.getName();
-                critterCount.put(c2, critterCount.get(c2) + 1);
-                info.remove(old);
-                try {
-                    grid[p.x][p.y] = makeCritter(Recovered.class);
-                    locked.add(grid[p.x][p.y]);
-                } catch (Exception e) {
-                    throw new RuntimeException("" + e);
+            if (grid[p.x][p.y].getClass() == Virus.class) {
+                // death rate comes into play here
+                if (rNG() < .008) {
+                    Critter old = grid[p.x][p.y];
+                    PrivateData oldData = info.get(old);
+                    String c1 = old.getClass().getName();
+                    critterCount.put(c1, critterCount.get(c1) - 1);
+                    String c2 = Deceased.class.getName();
+                    critterCount.put(c2, critterCount.get(c2) + 1);
+                    info.remove(old);
+                    try {
+                        grid[p.x][p.y] = makeCritter(Deceased.class);
+                        locked.add(grid[p.x][p.y]);
+                    } catch (Exception e) {
+                        throw new RuntimeException("" + e);
+                    }
+                    // and add to the map
+                    info.put(grid[p.x][p.y], oldData);
+                    // but it also moved, so the hop counts
+                    oldData.justHopped = true;
+                } else if (grid[p.x][p.y].getMoveCount() % 100 == 99) {
+                    Critter old = grid[p.x][p.y];
+                    PrivateData oldData = info.get(old);
+                    String c1 = old.getClass().getName();
+                    critterCount.put(c1, critterCount.get(c1) - 1);
+                    String c2 = Recovered.class.getName();
+                    critterCount.put(c2, critterCount.get(c2) + 1);
+                    info.remove(old);
+                    try {
+                        grid[p.x][p.y] = makeCritter(Recovered.class);
+                        locked.add(grid[p.x][p.y]);
+                    } catch (Exception e) {
+                        throw new RuntimeException("" + e);
+                    }
+                    // and add to the map
+                    info.put(grid[p.x][p.y], oldData);
+                    // but it also moved, so the hop counts
+                    oldData.justHopped = true;
+                } else if (move == Critter.Action.LEFT)
+                    data.direction = rotate(rotate(rotate(data.direction)));
+                else if (move == Critter.Action.RIGHT)
+                    data.direction = rotate(data.direction);
+                else if (move == Critter.Action.HOP) {
+                    if (inBounds(p2) && grid[p2.x][p2.y] == null) {
+                        grid[p2.x][p2.y] = grid[p.x][p.y];
+                        grid[p.x][p.y] = null;
+                        data.p = p2;
+                        locked.add(next); //successful hop locks a critter from
+                        // being infected for the rest of the
+                        // turn
+                        data.justHopped = true;  // remember a successful hop
+                    }
+                } else if (move == Critter.Action.INFECT) {
+                    if (inBounds(p2) && grid[p2.x][p2.y] != null
+                            && grid[p2.x][p2.y].getClass() != next.getClass()
+                            && grid[p2.x][p2.y].getClass() != Recovered.class
+                            && grid[p2.x][p2.y].getClass() != Deceased.class
+                            && !locked.contains(grid[p2.x][p2.y])
+                            && (hadHopped || Math.random() >= HOP_ADVANTAGE)) {
+                        Critter other = grid[p2.x][p2.y];
+                        // remember the old critter's private data
+                        PrivateData oldData = info.get(other);
+                        // then remove that old critter
+                        String c1 = other.getClass().getName();
+                        critterCount.put(c1, critterCount.get(c1) - 1);
+                        String c2 = next.getClass().getName();
+                        critterCount.put(c2, critterCount.get(c2) + 1);
+                        info.remove(other);
+                        // and add a new one to the grid
+                        try {
+                            grid[p2.x][p2.y] = makeCritter(next.getClass());
+                            // This critter has been infected and is now locked
+                            // for the rest of this turn
+                            locked.add(grid[p2.x][p2.y]);
+                        } catch (Exception e) {
+                            throw new RuntimeException("" + e);
+                        }
+                        // and add to the map
+                        info.put(grid[p2.x][p2.y], oldData);
+                        // but it's new, so it didn't just hop
+                        oldData.justHopped = false;
+                    }
                 }
-                // and add to the map
-                info.put(grid[p.x][p.y], oldData);
-                // but it also moved, so the hop counts
-                oldData.justHopped = true;
-            }
-            else if (move == Critter.Action.LEFT)
+            } else if (move == Critter.Action.LEFT)
                 data.direction = rotate(rotate(rotate(data.direction)));
             else if (move == Critter.Action.RIGHT)
                 data.direction = rotate(data.direction);
@@ -280,6 +344,11 @@ public class CritterModel {
 
     public int getSimulationCount() {
         return simulationCount;
+    }
+
+    public double rNG() {
+        double random = Math.random();
+        return random;
     }
 
     private class PrivateData {

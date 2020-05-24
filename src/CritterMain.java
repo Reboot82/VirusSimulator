@@ -13,7 +13,7 @@ public class CritterMain {
     private static Scanner input = new Scanner(System.in);
     private static int viNum;
     private static int huNum;
-    private static int infector = 0;
+    private static int infector = 5;
 
 
     public static int getInfector() {
@@ -26,15 +26,17 @@ public class CritterMain {
 
 
     public static void main(String[] args) {
-        intro();
+//        intro();
         CritterFrame frame = new CritterFrame(60, 40);
 
         // uncomment each of these lines as you complete these classes
-        frame.add(viNum, Virus.class);
-//         frame.add(30, Tiger.class);
-//         frame.add(30, WhiteTiger.class);
-        frame.add(huNum, Human.class);
-        frame.add(30, Recovered.class);
+//        frame.add(30, Tiger.class);
+//        frame.add(viNum, Virus.class);
+//        frame.add(huNum, Human.class);
+        frame.add(200, Human.class);
+        frame.add(50, Virus.class);
+        frame.add(0, Recovered.class);
+        frame.add(0, Deceased.class);
 //
 //        frame.add(30, FlyTrap.class);
 //        frame.add(30, Food.class);
