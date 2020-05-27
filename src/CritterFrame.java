@@ -24,7 +24,7 @@ public class CritterFrame extends JFrame {
         created = true;
 
         // create frame and model
-        setTitle("CSE142 critter simulation");
+        setTitle("Brandt Campbell Virus Simulator");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         myModel = new CritterModel(width, height);
 

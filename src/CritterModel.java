@@ -199,7 +199,7 @@ public class CritterModel {
             Critter.Action move = next.getMove(getInfo(data, next.getClass()));
             if (grid[p.x][p.y].getClass() == Virus.class) {
                 // death rate comes into play here
-                if (rNG() < .008) {
+                if (rNG() < (CritterMain.getDeceaseRate()*.0001)) {
                     Critter old = grid[p.x][p.y];
                     PrivateData oldData = info.get(old);
                     String c1 = old.getClass().getName();
@@ -217,7 +217,7 @@ public class CritterModel {
                     info.put(grid[p.x][p.y], oldData);
                     // but it also moved, so the hop counts
                     oldData.justHopped = true;
-                } else if (grid[p.x][p.y].getMoveCount() % 100 == 99) {
+                } else if (grid[p.x][p.y].getMoveCount() % 366 == CritterMain.getRecoverRate() * 10) {
                     Critter old = grid[p.x][p.y];
                     PrivateData oldData = info.get(old);
                     String c1 = old.getClass().getName();

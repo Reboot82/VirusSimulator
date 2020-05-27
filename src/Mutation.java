@@ -1,9 +1,9 @@
 
 import java.awt.*;
 
-public class Virus extends Critter {
+public class Mutation extends Critter {
     private Color[] color = {Color.CYAN, Color.BLUE, Color.GREEN, Color.MAGENTA, Color.BLACK};
-    private final String image = "V";
+    private final String image = "M";
     private int moveCount = 0;
     private int infectiousness = 0;
 
@@ -11,7 +11,7 @@ public class Virus extends Critter {
         return infectiousness;
     }
 
-    public Virus() {
+    public Mutation() {
         super();
     }
 
@@ -101,6 +101,48 @@ public class Virus extends Critter {
             default:
                 action = pickMove();
         }
+        return action;
+    }
+
+    public Action superInfect(CritterInfo info) {
+        Action action = null;
+        if (info.frontThreat()) {
+            action = infect();
+        }
+        else if (info.getFront() == Neighbor.OTHER) {
+            action = infect();
+        }
+        else if (info.getRight() == Neighbor.OTHER) {
+            action = Action.RIGHT;
+        }
+        else if (info.getLeft() == Neighbor.OTHER) {
+            action = Action.LEFT;
+        }
+        else {
+            action = pickMove();
+        }
+        moveCount++;
+        return action;
+    }
+
+    public Action fourInfect(CritterInfo info) {
+        Action action = null;
+        if (info.frontThreat()) {
+            action = Action.INFECT;
+        }
+        else if (info.getFront() == Neighbor.OTHER) {
+            action = Action.INFECT;
+        }
+        else if (info.getRight() == Neighbor.OTHER) {
+            action = Action.RIGHT;
+        }
+        else if (info.getLeft() == Neighbor.OTHER) {
+            action = Action.HOP;
+        }
+        else {
+            action = pickMove();
+        }
+        moveCount++;
         return action;
     }
 }
