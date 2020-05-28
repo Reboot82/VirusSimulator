@@ -15,7 +15,7 @@ public class CritterFrame extends JFrame {
     private JButton countButton;
     private boolean started;
     private static boolean created;
-    
+
     public CritterFrame(int width, int height) {
         // this prevents someone from trying to create their own copy of
         // the GUI components
@@ -57,6 +57,15 @@ public class CritterFrame extends JFrame {
         p.add(slider);
         p.add(new JLabel("fast"));
 
+//        JButton b0 = new JButton("reset");
+//        b0.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                System.load("C:\\Users\\BCampbell\\IdeaProjects\\VirusSimulator\\src\\CritterMain");
+//                System.exit(0);
+//            }
+//        });
+//        p.add(b0);
         JButton b1 = new JButton("start");
         b1.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
