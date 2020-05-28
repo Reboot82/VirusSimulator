@@ -38,18 +38,12 @@ public class CritterMain {
         intro();
         CritterFrame frame = new CritterFrame(60, 40);
 
-        // uncomment each of these lines as you complete these classes
-//        frame.add(30, Tiger.class);
         frame.add(viNum, Virus.class);
         frame.add(huNum, Human.class);
 //        frame.add(200, Human.class);
 //        frame.add(50, Virus.class);
         frame.add(0, Recovered.class);
         frame.add(0, Deceased.class);
-//
-//        frame.add(30, FlyTrap.class);
-//        frame.add(30, Food.class);
-
         frame.start();
     }
 
@@ -74,11 +68,11 @@ public class CritterMain {
             }
         }
         while (deceaseRate == 0) {
-            System.out.print("How deadly is this disease? (1-100): ");
+            System.out.print("How deadly is this disease(CFR)? (1-100): ");
             deceaseRate = getResponse(input, 100);
         }
         while (recoverRate == 0) {
-            System.out.print("How fast fo people recover (in days)?: ");
+            System.out.print("How fast do people recover (in days)?: ");
             recoverRate = getResponse(input, 365);
         }
     }

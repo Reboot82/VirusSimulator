@@ -2,8 +2,9 @@
 import java.awt.*;
 
 public class Virus extends Critter {
-    private Color[] color = {Color.CYAN, Color.BLUE, Color.GREEN, Color.MAGENTA, Color.BLACK};
-    private final String image = "V";
+    private Color[] color = {Color.MAGENTA, Color.BLUE, Color.GRAY, Color.DARK_GRAY, Color.BLACK};
+    private int unicode = 0x1F647;
+    private final String image = getEmojiByUnicode(unicode);
     private int moveCount = 0;
     private int infectiousness = 0;
 
@@ -64,7 +65,7 @@ public class Virus extends Critter {
         Action action = null;
         switch (infectiousness) {
             case 0:
-                if (moveCount%18 == 0) {
+                if (moveCount%14 == 0) {
                     action = Action.INFECT;
                 }
                 else {
@@ -102,5 +103,9 @@ public class Virus extends Critter {
                 action = pickMove();
         }
         return action;
+    }
+
+    public String getEmojiByUnicode(int unicode){
+        return new String(Character.toChars(unicode));
     }
 }

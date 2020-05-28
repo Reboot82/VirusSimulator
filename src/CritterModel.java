@@ -279,6 +279,9 @@ public class CritterModel {
                         // but it's new, so it didn't just hop
                         oldData.justHopped = false;
                     }
+                    else {
+                        data.direction = rotate(rotate(rotate(data.direction)));
+                    }
                 }
             } else if (move == Critter.Action.LEFT)
                 data.direction = rotate(rotate(rotate(data.direction)));
@@ -298,6 +301,7 @@ public class CritterModel {
                 if (inBounds(p2) && grid[p2.x][p2.y] != null
                         && grid[p2.x][p2.y].getClass() != next.getClass()
                         && grid[p2.x][p2.y].getClass() != Recovered.class
+                        && grid[p2.x][p2.y].getClass() != Deceased.class
                         && !locked.contains(grid[p2.x][p2.y])
                         && (hadHopped || Math.random() >= HOP_ADVANTAGE)) {
                     Critter other = grid[p2.x][p2.y];

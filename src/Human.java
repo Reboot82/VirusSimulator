@@ -3,7 +3,8 @@ import java.awt.*;
 
 public class Human extends Critter {
     private Color color = Color.YELLOW;
-    private final String image = "H";
+    private int unicode = 0x1F601;
+    private final String image = getEmojiByUnicode(unicode);
     private int moveCount = 0;
     private int counter = 0;
 
@@ -46,5 +47,9 @@ public class Human extends Critter {
             case 3 -> Action.RIGHT;
             default -> null;
         };
+    }
+
+    public String getEmojiByUnicode(int unicode){
+        return new String(Character.toChars(unicode));
     }
 }
