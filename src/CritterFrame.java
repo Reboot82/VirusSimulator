@@ -61,7 +61,7 @@ public class CritterFrame extends JFrame {
 //        b0.addActionListener(new ActionListener() {
 //            @Override
 //            public void actionPerformed(ActionEvent e) {
-//                System.load("C:\\Users\\BCampbell\\IdeaProjects\\VirusSimulator\\src\\CritterMain");
+//
 //                System.exit(0);
 //            }
 //        });
@@ -89,14 +89,14 @@ public class CritterFrame extends JFrame {
         p.add(b3);
         
         // add debug button
-        JButton b4 = new JButton("debug");
-        b4.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                myModel.toggleDebug();
-                myPicture.repaint();
-            }
-        });
-        p.add(b4);
+//        JButton b4 = new JButton("debug");
+//        b4.addActionListener(new ActionListener() {
+//            public void actionPerformed(ActionEvent e) {
+//                myModel.toggleDebug();
+//                myPicture.repaint();
+//            }
+//        });
+//        p.add(b4);
 
         // add 100 button
         JButton b5 = new JButton("next 100");
